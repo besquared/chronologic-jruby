@@ -40,7 +40,8 @@ module Chronologic
       end
       
       sort = lucene.search.Sort.new(random_sort_field)
-      collector = lucene.search.TopFieldCollector.create(sort, options[:count], false, false, false, false);
+      collector = lucene.search.TopScoreDocCollector.create(options[:count], true);
+      # collector = lucene.search.TopFieldCollector.create(sort, options[:count], true, false, false, false);
       searcher.search(query, collector);
       
       hits = collector.topDocs.scoreDocs
