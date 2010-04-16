@@ -29,14 +29,13 @@ module Chronologic
           document.add(field)
         end
         
-        puts document.inspect
         index.add_document(document)
       end
       
       index.close
     end
     
-    def sample(query_string, options = {:count => 10})
+    def sample(query_string, options = {:size => 10})
       searcher = lucene.search.IndexSearcher.new(directory);
       
       if query_string.empty?
@@ -48,7 +47,7 @@ module Chronologic
       
       sort = lucene.search.Sort.new(random_sort_field)
       # collector = lucene.search.TopScoreDocCollector.create(options[:count], true);
-      collector = lucene.search.TopFieldCollector.create(sort, options[:count], true, false, false, false);
+      collector = lucene.search.TopFieldCollector.create(sort, options[:size], true, false, false, false);
       searcher.search(query, collector);
       
       hits = collector.topDocs.scoreDocs

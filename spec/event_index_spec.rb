@@ -14,11 +14,11 @@ describe Chronologic::EventIndex do
     index = Chronologic::EventIndex::new('registrations')
     
     events = []
-    15.times do |num|
+    20.times do |num|
       events << @event.merge(:id => num)
     end
     index.load(events)
     
-    puts index.sample("").inspect
+    index.sample("", :size => 15).length.should == 15
   end
 end
