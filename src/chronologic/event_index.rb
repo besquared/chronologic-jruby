@@ -9,24 +9,31 @@ module Chronologic
     end
     
     def insert(event = {})
-      return false unless event.has_key?(:id)
+      load([event])
+    end
+    
+    def load(events = [])
+      index = lucene.index.IndexWriter.new(directory, analyzer, !exists?, max_field_length)
       
-      event.merge!(:random_key => rand)
-      
-      index = lucene.index.IndexWriter.new(directory, analyzer, true, max_field_length)
-      
-      document = lucene.document.Document.new
-      event.each do |fname, value|
-        if fname == :id
-          field = lucene.document.Field.new(fname.to_s, value.to_s, stored, not_analyzed)
-        else
-          field = lucene.document.Field.new(fname.to_s, value.to_s, not_stored, not_analyzed)
+      events.each do |event|
+        next unless event.has_key?(:id)
+        event.merge!(:random_key => rand)
+        document = lucene.document.Document.new
+
+        event.each do |fname, value|
+          if fname == :id
+            field = lucene.document.Field.new(fname.to_s, value.to_s, stored, not_analyzed)
+          else
+            field = lucene.document.Field.new(fname.to_s, value.to_s, not_stored, not_analyzed)
+          end
+          document.add(field)
         end
-        document.add(field)
+        
+        puts document.inspect
+        index.add_document(document)
       end
-      index.addDocument(document)
+      
       index.close
-      true
     end
     
     def sample(query_string, options = {:count => 10})
@@ -35,13 +42,13 @@ module Chronologic
       if query_string.empty?
         query = lucene.search.MatchAllDocsQuery.new
       else
-        parser = lucene.queryParser.QueryParser.new(lucene_version, "random_key", analyzer);
+        parser = lucene.queryParser.QueryParser.new(lucene_version, "created_at", analyzer);
         query = parser.parse(query_string);
       end
       
       sort = lucene.search.Sort.new(random_sort_field)
-      collector = lucene.search.TopScoreDocCollector.create(options[:count], true);
-      # collector = lucene.search.TopFieldCollector.create(sort, options[:count], true, false, false, false);
+      # collector = lucene.search.TopScoreDocCollector.create(options[:count], true);
+      collector = lucene.search.TopFieldCollector.create(sort, options[:count], true, false, false, false);
       searcher.search(query, collector);
       
       hits = collector.topDocs.scoreDocs
@@ -63,6 +70,10 @@ module Chronologic
     
     def directory
       lucene.store.MMapDirectory.new(java.io.File.new(path))
+    end
+    
+    def exists?
+      lucene.index.IndexReader.index_exists(directory)
     end
     
     def analyzer

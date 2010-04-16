@@ -7,15 +7,17 @@ describe Chronologic::EventIndex do
   
   it "should insert an event" do
     index = Chronologic::EventIndex.new('registrations')
-    index.insert(@event).should == true
+    index.insert(@event)
   end
   
   it "should sample all events" do
     index = Chronologic::EventIndex::new('registrations')
     
-    100.times do |num|
-      index.insert(@event.merge(:id => num))
+    events = []
+    15.times do |num|
+      events << @event.merge(:id => num)
     end
+    index.load(events)
     
     puts index.sample("").inspect
   end
