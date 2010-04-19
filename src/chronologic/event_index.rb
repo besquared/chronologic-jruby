@@ -1,5 +1,5 @@
 module Chronologic
-  class EventIndex
+  class EventIndex < BaseIndex
     attr_accessor :name
     attr_accessor :lucene
     
@@ -46,7 +46,6 @@ module Chronologic
       end
       
       sort = lucene.search.Sort.new(random_sort_field)
-      # collector = lucene.search.TopScoreDocCollector.create(options[:count], true);
       collector = lucene.search.TopFieldCollector.create(sort, options[:size], true, false, false, false);
       searcher.search(query, collector);
       
@@ -60,51 +59,6 @@ module Chronologic
       searcher.close
       
       results
-    end
-    
-  protected
-    def path
-      File.join(Configuration.instance.index_path, "events", name)
-    end
-    
-    def directory
-      lucene.store.MMapDirectory.new(java.io.File.new(path))
-    end
-    
-    def exists?
-      lucene.index.IndexReader.index_exists(directory)
-    end
-    
-    def analyzer
-      lucene.analysis.standard.StandardAnalyzer.new(lucene_version)
-    end
-    
-    def max_field_length
-      lucene.index.IndexWriter::MaxFieldLength::UNLIMITED
-    end
-    
-    def exists
-      lucene.index.IndexReader.index_exists(directory)
-    end
-    
-    def stored
-      lucene.document.Field::Store::YES
-    end
-    
-    def not_stored
-      lucene.document.Field::Store::NO
-    end
-    
-    def not_analyzed
-      lucene.document.Field::Index::NOT_ANALYZED
-    end
-    
-    def lucene_version
-      lucene.util.Version::LUCENE_30
-    end
-    
-    def random_sort_field
-      lucene.search.SortField.new("random_key", lucene.search.SortField::DOUBLE)
-    end
+    end    
   end
 end

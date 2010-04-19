@@ -1,5 +1,5 @@
 module Chronologic
-  class ObjectIndex
+  class ObjectIndex < BaseIndex
   
   end
 end

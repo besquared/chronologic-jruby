@@ -1,5 +1,5 @@
 module Chronologic
-  class AttributeIndex
+  class AttributeIndex < BaseIndex
   
   end
 end
