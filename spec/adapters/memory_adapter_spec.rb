@@ -4,9 +4,9 @@ describe Chronologic::Adapters::MemoryAdapter do
   it "should create, find and destroy data" do
     store = Chronologic::Adapters::MemoryAdapter.new
     
-    store.create(1, {:name => 'Josh'})
-    store.find(1).should == {:name => 'Josh'}
-    store.destroy(1)
-    store.find(1).should == nil
+    store.create('sessions', 1, {:name => 'Josh'})
+    store.find('sessions', 1).should == {:name => 'Josh'}
+    store.destroy('sessions', 1)
+    store.find('sessions', 1).should == nil
   end
 end

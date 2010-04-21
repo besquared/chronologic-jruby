@@ -7,20 +7,28 @@ module Chronologic
         @store = {}
       end
       
-      def find(id)
-        @store[id]
+      def find(table, id)
+        ensure_table(table)
+        @store[table][id]
       end
       
-      def find_all(ids)
-        ids.collect{|id| find(id)}
+      def find_all(table, ids)
+        ids.collect{|id| find(table, id)}
       end
       
-      def create(id, data = {})
-        @store[id] = data
+      def create(table, id, data = {})
+        ensure_table(table)
+        @store[table][id] = data
       end
       
-      def destroy(id)
-        @store.delete(id)
+      def destroy(table, id)
+        ensure_table(table)
+        @store[table].delete(id)
+      end
+    
+    protected
+      def ensure_table(table)
+        @store[table] ||= {}
       end
     end
   end

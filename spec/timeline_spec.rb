@@ -9,4 +9,8 @@ describe Chronologic::Timeline do
     registrations = Chronologic::Timeline.new('sessions')
     registrations.append(1, @event)
   end
+  
+  it "should sample a set of events" do
+    
+  end
 end

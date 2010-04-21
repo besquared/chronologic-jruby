@@ -1,19 +1,19 @@
 module Chronologic
   module Adapters
     class BaseAdapter      
-      def find(id)
+      def find(table, id)
         raise NotImplementedError
       end
       
-      def find_all(ids)
+      def find_all(table, ids)
         raise NotImplementedError
       end
       
-      def create(id, data = {})
+      def create(table, id, data = {})
         raise NotImplementedError
       end
       
-      def destroy(id)
+      def destroy(table, id)
         raise NotImplementedError
       end
     end
