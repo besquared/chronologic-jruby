@@ -11,11 +11,13 @@ module Chronologic
     def append(id, event, options = {})
       options = {:store => true}.merge(options)
       
-      index.insert(event.merge(:id => id))
-      
-      if options[:store]
-        storage.create(id, event)
+      event.merge!(:id => id)
+      if not event.has_key?(:occurred_at)
+        event.merge!(:occurred_at => Time.now.utc.to_i)
       end
+      
+      index.insert(event)
+      storage.create(id, event) if options[:store]
     end
     
     def sample(query, options = {}, &block)
