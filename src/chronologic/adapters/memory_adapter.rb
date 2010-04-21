@@ -15,7 +15,7 @@ module Chronologic
         @store[id] = data
       end
       
-      def destroy(id, data = {})
+      def destroy(id)
         @store.delete(id)
       end
     end

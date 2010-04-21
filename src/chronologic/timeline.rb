@@ -1,11 +1,21 @@
 module Chronologic
   class Timeline
-    attr_accessor :indices
+    attr_accessor :index
     attr_accessor :storage
     
     def initialize(name)
-      @indices = {}
-      @storage = Configuration.storage
+      @index = Indices::EventIndex::new(name)
+      @storage = Configuration.instance.storage
+    end
+    
+    def append(id, event, options = {})
+      options = {:store => true}.merge(options)
+      
+      index.insert(event.merge(:id => id))
+      
+      if options[:store]
+        storage.create(id, event)
+      end
     end
   end
 end

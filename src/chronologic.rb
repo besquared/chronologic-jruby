@@ -10,3 +10,5 @@ require File.join(File.dirname(__FILE__), 'chronologic', 'adapters', 'base_adapt
 require File.join(File.dirname(__FILE__), 'chronologic', 'adapters', 'memory_adapter')
 
 require File.join(File.dirname(__FILE__), 'chronologic', 'functions', 'cohorts')
+
+require File.join(File.dirname(__FILE__), 'chronologic', 'timeline')

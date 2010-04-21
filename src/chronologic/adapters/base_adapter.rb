@@ -9,7 +9,7 @@ module Chronologic
         raise NotImplementedError
       end
       
-      def destroy(id, data = {})
+      def destroy(id)
         raise NotImplementedError
       end
     end
