@@ -1,9 +1,15 @@
 development:
-  adapter: memory
+  storage:
+    adapter: memory
+  index_path: index
   
 test:
-    
+  storage:
+    adapter: memory
+  index_path: index_test
+
 production:
-  adapter: postgres
-  user: root
-  pass: 
+  storage:
+    adapter: postgres
+    user: root
+    pass: 

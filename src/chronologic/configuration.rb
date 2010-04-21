@@ -7,7 +7,18 @@ module Chronologic
     end
     
     def index_path
-      @properties[:index_path] || "./index"
+      properties[:index_path] || "./index"
+    end
+    
+    def storage
+      storage_prop = properties[:storage]
+      adapter = (storage_prop and storage_prop[:adapter]) || 'memory'
+      
+      if adapter == 'memory'
+        @storage ||= Adapters::MemoryAdapter.new
+      end
+      
+      return @storage
     end
     
     def configure(properties)
@@ -19,6 +30,10 @@ module Chronologic
       
       def instance
         @configuration ||= new
+      end
+      
+      def storage
+        instance.storage
       end
     end
   end
