@@ -1,17 +1,17 @@
-require File.join(File.dirname(__FILE__), 'spec_helper')
+require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
-describe Chronologic::EventIndex do
+describe Chronologic::Indices::EventIndex do
   before(:each) do
     @event = {:id => 1, :created_at => Time.now.utc.to_i}
   end
   
   it "should insert an event" do
-    index = Chronologic::EventIndex.new('registrations')
+    index = Chronologic::Indices::EventIndex.new('registrations')
     index.insert(@event)
   end
   
   it "should sample all events" do
-    index = Chronologic::EventIndex::new('registrations')
+    index = Chronologic::Indices::EventIndex::new('registrations')
     
     events = []
     20.times do |num|

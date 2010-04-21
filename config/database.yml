@@ -1,0 +1,9 @@
+development:
+  adapter: memory
+  
+test:
+    
+production:
+  adapter: postgres
+  user: root
+  pass: 
