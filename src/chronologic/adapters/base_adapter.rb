@@ -5,6 +5,10 @@ module Chronologic
         raise NotImplementedError
       end
       
+      def find_all(ids)
+        raise NotImplementedError
+      end
+      
       def create(id, data = {})
         raise NotImplementedError
       end

@@ -17,5 +17,11 @@ module Chronologic
         storage.create(id, event)
       end
     end
+    
+    def sample(query, options = {}, &block)
+      options = {:size => 1000}.merge(options)
+      sample_ids = index.sample(query, options)
+      events = storage.find_all(sample_ids).compact
+    end
   end
 end

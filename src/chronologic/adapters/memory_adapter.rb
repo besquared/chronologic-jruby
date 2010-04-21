@@ -11,6 +11,10 @@ module Chronologic
         @store[id]
       end
       
+      def find_all(ids)
+        ids.collect{|id| find(id)}
+      end
+      
       def create(id, data = {})
         @store[id] = data
       end
