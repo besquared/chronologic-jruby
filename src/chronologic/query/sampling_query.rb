@@ -1,22 +1,22 @@
 module Chronologic
   module Query
     class SamplingQuery
-      attr_accessor :name
+      attr_accessor :timeline
       attr_accessor :joins
-      attr_accessor :sequence_group_by
+      attr_accessor :group_by
       
-      def initialize(name)
-        @name = name
+      def initialize(timeline)
+        @timeline = timeline
         @joins = []
       end
       
-      def left_join(timeline, left_attribute, right_attribute)
-        joins << LeftJoin.new(timeline, left_attribute, right_attribute)
+      def left_join(timeline, left_attribute, right_attribute, query = "")
+        joins << LeftJoin.new(timeline, left_attribute, right_attribute, query)
         self
       end
       
-      def sequence_group_by(name)
-        @sequence_group_by = name
+      def group_by(name)
+        @group_by = name
         self
       end
       
@@ -26,13 +26,21 @@ module Chronologic
         # cohorts: registrations left join activities on registration.user_id = activities.user_id, 
         #             sequence group by user_id
         
-        # base_timeline = Timeline.new(base_table)
-        # activity_timeline = Timeline.new(activity_table)
-        # 
-        # firsts = base_timeline.sample(query, :size => options[:size] || 1000)
-        # 
-        # object_ids = samples.collect{|sample| sample[object_id]}          
-        # follow_ups = activity_timeline.sample("#{query} #{object_id}:(#{object_ids.join(' ')})")
+        results = Sequence.new
+        
+        base_timeline = Timeline.new(timeline)
+        base_sample = base_timeline.sample(query, :size => options[:size] || 1000)
+        
+        results << base_sample
+        
+        joins.each do |join|
+          right_timeline = Timeline.new(join.timeline)
+          object_ids = base_sample.collect{|sample| sample[join.left_attribute]}
+          right_sample = right_timeline.sample("#{join.query} #{join.right_attribute}:(#{object_ids.join(' ')})")
+          results << right_sample
+        end
+        
+        results
       end
     end
   end
