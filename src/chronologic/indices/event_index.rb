@@ -39,7 +39,7 @@ module Chronologic
       
         index.close
       end
-    
+      
       def sample(query_string, options = {:size => 10})
         searcher = lucene.search.IndexSearcher.new(directory);
       
