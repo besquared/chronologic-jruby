@@ -15,18 +15,25 @@ module Chronologic
         self
       end
       
-      def group_by(name)
-        @group_by = name
+      def group_by(name = "", &block)
+        if block_given?
+          @group_by = block
+        else
+          @group_by = name
+        end
+        
         self
       end
       
       # cascading sampling we need to make sure
       #  we know exactly how many hits were in each join
-      def sequence(query = "", options = {}, &block)
+      def sequence(query = "", options = {})
         # cohorts: registrations left join activities on registration.user_id = activities.user_id, 
         #             sequence group by user_id
         
         results = Sequence.new
+        
+        # create a GroupedSequence here as well
         
         base_timeline = Timeline.new(timeline)
         base_sample = base_timeline.sample(query, :size => options[:size] || 1000)
