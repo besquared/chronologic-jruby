@@ -9,6 +9,10 @@ module Chronologic
         @lucene = org.apache.lucene
       end
     
+      #
+      # Core Functions
+      #
+      
       def insert(event = {})
         load([event])
       end
@@ -51,7 +55,9 @@ module Chronologic
         searcher.search(query, collector);
       
         hits = collector.topDocs.scoreDocs
-      
+        
+        # puts collector.topDocs.totalHits
+        
         results = []
         0.upto(hits.length - 1) do |doc_num|
           results << searcher.doc(hits[doc_num].doc).get("id")
@@ -60,7 +66,15 @@ module Chronologic
         searcher.close
       
         results
-      end    
+      end
+      
+      #
+      # Utility Functions
+      #
+      
+      def recreate!
+        lucene.index.IndexWriter.new(directory, analyzer, true, max_field_length).close
+      end
     end
   end
 end

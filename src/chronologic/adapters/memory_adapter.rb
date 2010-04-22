@@ -13,12 +13,13 @@ module Chronologic
       end
       
       def find_all(table, ids)
-        ids.collect{|id| find(table, id)}
+        ensure_table(table)
+        ids.collect{|id| @store[table][id.to_i]}
       end
       
       def create(table, id, data = {})
         ensure_table(table)
-        @store[table][id] = data
+        @store[table][id] = data.dup
       end
       
       def destroy(table, id)
