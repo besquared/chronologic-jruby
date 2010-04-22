@@ -14,8 +14,8 @@ module Chronologic
       options = {:store => true}.merge(options)
       
       event.merge!(:id => id)
-      if not event.has_key?(:occurred_at)
-        event.merge!(:occurred_at => Time.now.utc.to_i)
+      if not event.has_key?('occurred_at')
+        event.merge!('occurred_at' => Time.now.utc.to_i)
       end
       
       index.insert(event)

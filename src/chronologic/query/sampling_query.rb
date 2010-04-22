@@ -31,13 +31,17 @@ module Chronologic
         base_timeline = Timeline.new(timeline)
         base_sample = base_timeline.sample(query, :size => options[:size] || 1000)
         
-        results << base_sample
+        if base_sample.empty?
+          return results
+        else
+          results << base_sample
+        end
         
         joins.each do |join|
           right_timeline = Timeline.new(join.timeline)
-          object_ids = base_sample.collect{|sample| sample[join.left_attribute]}
+          object_ids = base_sample.collect{|sample| sample[join.left_attribute]}.compact
           right_sample = right_timeline.sample("#{join.query} #{join.right_attribute}:(#{object_ids.join(' ')})")
-          results << right_sample
+          results << right_sample unless right_sample.empty?
         end
         
         results

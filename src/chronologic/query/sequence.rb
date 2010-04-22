@@ -8,7 +8,7 @@ module Chronologic
       end
       
       def <<(events)
-        timeline << events
+        @timeline += events
       end
     end
   end

@@ -22,7 +22,7 @@ module Chronologic
       
         events.each do |event|
           next unless event.has_key?(:id)
-          event.merge!(:random_key => rand)
+          event.merge!('random_key' => rand)
           document = lucene.document.Document.new
 
           event.each do |fname, value|
