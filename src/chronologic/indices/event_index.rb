@@ -53,11 +53,10 @@ module Chronologic
         sort = lucene.search.Sort.new(random_sort_field)
         collector = lucene.search.TopFieldCollector.create(sort, options[:size], true, false, false, false);
         searcher.search(query, collector);
-      
-        hits = collector.topDocs.scoreDocs
         
+        hits = collector.topDocs.scoreDocs        
         # puts collector.topDocs.totalHits
-        
+
         results = []
         0.upto(hits.length - 1) do |doc_num|
           results << searcher.doc(hits[doc_num].doc).get("id")

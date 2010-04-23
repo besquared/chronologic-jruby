@@ -10,6 +10,10 @@ module Chronologic
       def <<(events)
         @timeline += events
       end
+      
+      def length
+        @timeline.length
+      end
     end
   end
 end
