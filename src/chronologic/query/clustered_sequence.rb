@@ -2,25 +2,23 @@ module Chronologic
   module Query
     class ClusteredSequence
       attr_accessor :name
-      attr_accessor :timelines
+      attr_accessor :events
       
-      def initialize(name)
+      def initialize(name, events)
         @name = name
-        @timelines = {}
-      end
-      
-      def <<(events)
+        @events = {}
+        
         events.each do |event|
-          @timelines[event[name]] ||= []
-          @timelines[event[name]] << event
+          @events[event[name]] ||= []
+          @events[event[name]] << event
         end
       end
-      
+            
       def length(cluster = nil)
         if cluster.nil?
-          @timelines.length
+          @events.length
         else
-          @timelines[cluster].length
+          @events[cluster].length
         end
       end
     end

@@ -1,18 +1,14 @@
 module Chronologic
   module Query
     class Sequence
-      attr_accessor :timeline
+      attr_accessor :events
       
-      def initialize
-        @timeline = []
+      def initialize(events)
+        @event = events
       end
-      
-      def <<(events)
-        @timeline += events
-      end
-      
+            
       def length
-        @timeline.length
+        @events.length
       end
     end
   end

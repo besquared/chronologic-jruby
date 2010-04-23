@@ -7,19 +7,15 @@ module Chronologic
         @query = query
       end
       
-      def sample(options = {})
-        if query.cluster_by
-          results = ClusteredSequence.new(query.cluster_by)
-        else
-          results = Sequence.new
-        end
-        
+      def sample(options = {})        
         timeline = Timeline.new(query.timeline)
         sample = timeline.sample(query.query, :size => options[:size] || 1000)
         
-        results << sample unless sample.empty?
-        
-        results
+        if query.cluster_by
+          ClusteredSequence.new(query.cluster_by, sample)
+        else
+          Sequence.new(sample)
+        end
       end
     end
   end

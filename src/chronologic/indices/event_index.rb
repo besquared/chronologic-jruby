@@ -54,17 +54,19 @@ module Chronologic
         collector = lucene.search.TopFieldCollector.create(sort, options[:size], true, false, false, false);
         searcher.search(query, collector);
         
-        hits = collector.topDocs.scoreDocs        
-        # puts collector.topDocs.totalHits
+        # return total hits out of here somehow, return a sample object
+        
+        hits = collector.topDocs.scoreDocs
+        total_hits = collector.topDocs.totalHits
 
-        results = []
+        events = []
         0.upto(hits.length - 1) do |doc_num|
-          results << searcher.doc(hits[doc_num].doc).get("id")
+          events << searcher.doc(hits[doc_num].doc).get("id")
         end
       
         searcher.close
       
-        results
+        Sample.new(events, events.length, total_hits)
       end
       
       #
