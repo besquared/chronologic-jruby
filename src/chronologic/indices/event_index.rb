@@ -54,6 +54,13 @@ module Chronologic
         collector = lucene.search.TopFieldCollector.create(sort, options[:size], true, false, false, false);
         searcher.search(query, collector);
         
+        # move to using this instead
+        # public TopFieldDocs search(Query query,
+        #                            Filter filter,
+        #                            int n,
+        #                            Sort sort)
+        
+        
         # return total hits out of here somehow, return a sample object
         
         hits = collector.topDocs.scoreDocs
