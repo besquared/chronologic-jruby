@@ -27,8 +27,33 @@ module Chronologic
     end
     
     class << self
-      def create(sample, columns, rows, group_by = [])
-        # go through and group a bunch of things here
+      def create(sample, global_dimensions = nil)
+        
+        if global_dimensions.nil?
+          create_flat(sample)
+        else
+          create_grouped(sample, global_dimensions)
+        end
+      end
+      
+      def create_flat(sample)
+        
+      end
+      
+      def create_grouped(sample, global_dimensions)
+        groups = {}
+        sample.each do |event|
+          key_parts = []
+          global_dimensions.each do |dimension|
+            key_parts << event[dimension]
+          end
+          groups[key_parts] ||= []
+          groups[key_parts] << event
+        end
+        
+        groups.each do |group|
+          
+        end
       end
     end
   end

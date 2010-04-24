@@ -12,6 +12,10 @@ module Chronologic
         @cluster_by = options[:cluster_by]
         @sequence_group_by = options[:sequence_group_by]
       end
+      
+      def global_dimensions
+        [cluster_by, sequence_group_by].flatten.compact
+      end
     end
   end
 end
