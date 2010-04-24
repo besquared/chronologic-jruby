@@ -50,25 +50,15 @@ module Chronologic
           query = parser.parse(query_string);
         end
       
-        sort = lucene.search.Sort.new(random_sort_field)
-        collector = lucene.search.TopFieldCollector.create(sort, options[:size], true, false, false, false);
-        searcher.search(query, collector);
+        sort = lucene.search.Sort.new(random_sort_field)        
+        top_docs = searcher.search(query, nil, options[:size], sort)
         
-        # move to using this instead
-        # public TopFieldDocs search(Query query,
-        #                            Filter filter,
-        #                            int n,
-        #                            Sort sort)
+        hits = top_docs.scoreDocs
+        total_hits = top_docs.totalHits
         
-        
-        # return total hits out of here somehow, return a sample object
-        
-        hits = collector.topDocs.scoreDocs
-        total_hits = collector.topDocs.totalHits
-
         events = []
         0.upto(hits.length - 1) do |doc_num|
-          events << searcher.doc(hits[doc_num].doc).get("id")
+          events << IndexedEvent.new(searcher.doc(hits[doc_num].doc))
         end
       
         searcher.close

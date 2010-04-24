@@ -19,6 +19,6 @@ describe Chronologic::Indices::EventIndex do
     end
     index.load(events)
     
-    index.sample("", :size => 15).length.should == 15
+    index.sample("", :size => 15).sample_size.should == 15
   end
 end

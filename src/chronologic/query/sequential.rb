@@ -5,10 +5,12 @@ module Chronologic
       attr_accessor :timeline
       attr_accessor :cluster_by
       
-      def initialize(timeline, query = "", cluster_by = nil)
-        @query = query
+      def initialize(timeline, options = {})
         @timeline = timeline
-        @cluster_by = cluster_by
+        
+        @query = options[:query]
+        @cluster_by = options[:cluster_by]
+        @sequence_group_by = options[:sequence_group_by]
       end
     end
   end

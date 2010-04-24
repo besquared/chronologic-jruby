@@ -12,9 +12,9 @@ module Chronologic
         @store[table][id]
       end
       
-      def find_all(table, ids)
+      def find_all(table, sample)
         ensure_table(table)
-        ids.collect{|id| @store[table][id.to_i]}
+        sample.collect{|event| @store[table][event['id'].to_i]}
       end
       
       def create(table, id, data = {})

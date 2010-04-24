@@ -22,16 +22,8 @@ module Chronologic
       storage.create(name, id, event) if options[:store]
     end
     
-    def sample(query = "", options = {}, &block)
-      options = {:size => 1000, :load => true}.merge(options)
-      
-      sample_ids = index.sample(query, options)
-      
-      if options[:load]
-        storage.find_all(name, sample_ids).compact
-      else
-        sample_ids
-      end
+    def sample(query = "", options = {})
+      index.sample(query, options)
     end
   end
 end

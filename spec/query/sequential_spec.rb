@@ -10,7 +10,7 @@ describe Chronologic::Query::Sequential do
   end
   
   it "should perform a simple query" do
-    query = Chronologic::Query::Sequential.new('registrations', '', 'user_id')
+    query = Chronologic::Query::Sequential.new('registrations', :cluster_by => 'user_id')
     query.timeline.should == 'registrations'
     query.cluster_by.should == 'user_id'
   end  
