@@ -22,4 +22,4 @@ require File.join(File.dirname(__FILE__), 'chronologic', 'timeline')
 require File.join(File.dirname(__FILE__), 'chronologic', 'query', 'sampler')
 require File.join(File.dirname(__FILE__), 'chronologic', 'query', 'sequential')
 
-require File.join(File.dirname(__FILE__), 'chronologic', 'estimations', 'average')
+require File.join(File.dirname(__FILE__), 'chronologic', 'aggregations', 'count')

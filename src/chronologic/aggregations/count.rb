@@ -1,5 +1,5 @@
 module Chronlogic
-  module Estimations
+  module Aggregations
     class Count
       attr_accessor :options
       
