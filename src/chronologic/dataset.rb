@@ -42,7 +42,7 @@ module Chronologic
       end
       
       def create_flat(name, sample)
-        # how do we create a flat dataset
+        new(name, sample, name, sample.events)
       end
       
       def create_grouped(name, sample, group_by)
@@ -56,11 +56,19 @@ module Chronologic
           groups[key_parts] << event
         end
         
-        puts group_by.inspect
-        puts groups.inspect
+        dataset = new(name, sample, group_by + [name])
         
-        groups.each do |group|
+        groups.each do |key, objs|
+          row = {}
+          group_by.each_with_index do |dimension, i|
+            row[dimension] = key[i]
+          end
+          row[name] = objs
+          
+          dataset << row
         end
+        
+        dataset
       end
     end
   end
