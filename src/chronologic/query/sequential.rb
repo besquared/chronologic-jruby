@@ -9,12 +9,12 @@ module Chronologic
         @timeline = timeline
         
         @query = options[:query]
-        @cluster_by = options[:cluster_by]
-        @sequence_group_by = options[:sequence_group_by]
+        @cluster_by = options[:cluster_by] || nil
+        @sequence_group_by = options[:sequence_group_by] || nil
       end
       
       def global_dimensions
-        [cluster_by, sequence_group_by].flatten.compact
+        [@cluster_by, @sequence_group_by].flatten.compact
       end
     end
   end

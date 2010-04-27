@@ -3,12 +3,12 @@ module Chronologic
     include Enumerable
     
     attr_accessor :events
-    attr_accessor :sample_size
+    attr_accessor :size
     attr_accessor :population_size
   
-    def initialize(events, sample_size, population_size)
+    def initialize(events, size, population_size)
       @events = events
-      @sample_size = sample_size
+      @size = size
       @population_size = population_size
     end
     

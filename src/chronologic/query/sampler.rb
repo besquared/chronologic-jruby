@@ -9,15 +9,8 @@ module Chronologic
       
       def sample(options = {})
         timeline = Timeline.new(query.timeline)
-        sample = timeline.sample(query.query, :size => options[:size] || 1000)
-        
-        Dataset.create(sample, [*query.global_dimensions, 'events'])
-        
-        if query.cluster_by
-          ClusteredSequence.new(query.cluster_by, sample)
-        else
-          Sequence.new(sample)
-        end
+        sample = timeline.sample(:query => query.query, :size => options[:size] || 1000)
+        Dataset.create('events', sample, :group_by => query.global_dimensions)        
       end
     end
   end

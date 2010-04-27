@@ -10,20 +10,16 @@ module Chronologic
       @storage = Configuration.instance.storage
     end
     
-    def append(id, event, options = {})
-      options = {:store => true}.merge(options)
-      
-      event.merge!(:id => id)
-      if not event.has_key?('occurred_at')
-        event.merge!('occurred_at' => Time.now.utc.to_i)
+    def append(event, options = {})
+      if not event.has_field?('occurred_at')
+        event.add('occurred_at', Time.now.utc.to_i, true)
       end
       
       index.insert(event)
-      storage.create(name, id, event) if options[:store]
     end
     
-    def sample(query = "", options = {})
-      index.sample(query, options)
+    def sample(options = {})
+      index.sample(options)
     end
   end
 end

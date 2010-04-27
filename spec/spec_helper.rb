@@ -12,15 +12,30 @@ def load_sessions_data
   josh = 1
   coda = 2
   
-  joshs_first_session = {'occurred_at' => Time.mktime(2010, 01, 02).to_i, 'user_id' => josh}
-  codas_first_session = {'occurred_at' => Time.mktime(2010, 01, 04).to_i, 'user_id' => coda}
-  joshs_second_session = {'occurred_at' => Time.mktime(2010, 01, 10).to_i, 'user_id' => josh}
-  codas_second_session = {'occurred_at' => Time.mktime(2010, 01, 15).to_i, 'user_id' => coda}
+  joshs_first_session = Chronologic::Indices::EventDocument.new
+  joshs_first_session.add('event_id', 1, true)
+  joshs_first_session.add('occurred_at', Time.mktime(2010, 01, 02).to_i, true)
+  joshs_first_session.add('user_id', josh, true)
   
-  sessions.append(1, joshs_first_session)
-  sessions.append(2, codas_first_session)
-  sessions.append(3, joshs_second_session)
-  sessions.append(4, codas_second_session)
+  codas_first_session = Chronologic::Indices::EventDocument.new
+  codas_first_session.add('event_id', 2, true)
+  codas_first_session.add('occurred_at', Time.mktime(2010, 01, 04).to_i, true)
+  codas_first_session.add('user_id', coda, true)
+  
+  joshs_second_session = Chronologic::Indices::EventDocument.new
+  joshs_second_session.add('event_id', 3, true)
+  joshs_second_session.add('occurred_at', Time.mktime(2010, 01, 10).to_i, true)
+  joshs_second_session.add('user_id', josh, true)
+  
+  codas_second_session = Chronologic::Indices::EventDocument.new
+  codas_second_session.add('event_id', 4, true)
+  codas_second_session.add('occurred_at', Time.mktime(2010, 01, 15).to_i, true)
+  codas_second_session.add('user_id', coda, true)
+  
+  sessions.append(joshs_first_session)
+  sessions.append(codas_first_session)
+  sessions.append(joshs_second_session)
+  sessions.append(codas_second_session)
 end
 
 def load_registrations_data
@@ -29,9 +44,16 @@ def load_registrations_data
   josh = 1
   coda = 2
   
-  josh_registers = {'occurred_at' => Time.mktime(2010, 01, 02).to_i, 'user_id' => josh}
-  coda_registers = {'occurred_at' => Time.mktime(2010, 01, 04).to_i, 'user_id' => coda}
+  joshs_registration = Chronologic::Indices::EventDocument.new
+  joshs_registration.add('event_id', 1, true)
+  joshs_registration.add('occurred_at', Time.mktime(2010, 01, 02).to_i, true)
+  joshs_registration.add('user_id', josh, true)
   
-  registrations.append(1, josh_registers)
-  registrations.append(2, coda_registers)
+  codas_registration = Chronologic::Indices::EventDocument.new
+  codas_registration.add('event_id', 2, true)
+  codas_registration.add('occurred_at', Time.mktime(2010, 01, 04).to_i, true)
+  codas_registration.add('user_id', coda, true)
+  
+  registrations.append(joshs_registration)
+  registrations.append(codas_registration)
 end

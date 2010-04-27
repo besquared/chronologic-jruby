@@ -11,19 +11,15 @@ describe Chronologic::Query::Sampler do
   
   it "should perform a sequential query" do
     query = Chronologic::Query::Sequential.new('registrations')
-    sampler = Chronologic::Query::Sampler.new(query)
-    sample = sampler.sample
+    sample = Chronologic::Query::Sampler.new(query).sample
     
     sample.length.should == 2
   end
   
   it "should perform a clustered sequential query" do
-    query = Chronologic::Query::Sequential.new('registrations', '', 'user_id')
-    sampler = Chronologic::Query::Sampler.new(query)
-    sample = sampler.sample
+    query = Chronologic::Query::Sequential.new('registrations', :cluster_by => 'user_id')
+    sample = Chronologic::Query::Sampler.new(query).sample
 
     sample.length.should == 2
-    sample.length(1).should == 1
-    sample.length(2).should == 1
   end
 end
