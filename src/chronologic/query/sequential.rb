@@ -13,6 +13,13 @@ module Chronologic
         @sequence_group_by = options[:sequence_group_by] || nil
       end
       
+      # we need to make room here to add on stuff to the
+      #  query after it's constructed to make things sane
+      # count
+      # count_distinct(field)
+      # average(field)
+      # ...
+      
       def global_dimensions
         [@cluster_by, @sequence_group_by].flatten.compact
       end

@@ -3,10 +3,11 @@ module Chronlogic
     class Count
       attr_accessor :options
       
-      def initialize(options = {})
+      def initialize(pattern, options = {})
+        super(pattern)
         @options = options
       end
-      
+            
       def map(events)
         count = 0
         events.each do |count|

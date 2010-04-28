@@ -18,6 +18,7 @@ require File.join(File.dirname(__FILE__), 'chronologic', 'adapters', 'memory_ada
 require File.join(File.dirname(__FILE__), 'chronologic', 'sample')
 require File.join(File.dirname(__FILE__), 'chronologic', 'dataset')
 require File.join(File.dirname(__FILE__), 'chronologic', 'timeline')
+require File.join(File.dirname(__FILE__), 'chronologic', 'processor')
 
 require File.join(File.dirname(__FILE__), 'chronologic', 'query', 'sampler')
 require File.join(File.dirname(__FILE__), 'chronologic', 'query', 'sequential')
